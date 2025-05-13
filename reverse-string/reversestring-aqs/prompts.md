@@ -306,3 +306,143 @@ Un botón "Copiar al portapapeles".
 Al hacer clic, se copia el texto y aparece una alerta de confirmación.
 
 ¿Quieres que la alerta sea un mensaje visual tipo toast o snackbar en vez de un alert() tradicional? Puedo ayudarte a agregar eso también.
+
+# Prompt 5
+
+Estupendo, la idea del mensaje cuando se ha copiado, me parece excelente, incluyela por favor, tambien me gustaría que pudieras darle algunos colores de fondo, ya que la presentación se ve muy blanca. Que sea una presentación elegante.
+
+# Resultado 5
+
+¡Perfecto! Vamos a mejorar el diseño y la experiencia del usuario:
+
+✅ Cambios que implementaremos:
+Reemplazo de alert() por un toast elegante de Bootstrap 5.
+
+Estilo visual más elegante:
+
+Fondo general gris claro.
+
+Tarjeta con fondo blanco y sombra.
+
+Colores suaves y contrastes agradables para una mejor presentación.
+
+🧩 index.html Final (actualizado con toast y estilos)
+html
+Copiar
+Editar
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reverse String</title>
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f2f5;
+    }
+
+    .card-custom {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    #result {
+      background-color: #e9f7ef;
+      border-color: #a3d9b1;
+      color: #2e7d32;
+    }
+
+    /* Toast position */
+    #toastContainer {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1050;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h1 class="text-center mb-4 text-primary">Reversor de Cadenas</h1>
+    <div class="card card-custom p-4">
+      <div class="mb-3">
+        <label for="inputText" class="form-label">Ingresa una cadena de texto:</label>
+        <input type="text" class="form-control" id="inputText" placeholder="Ejemplo: AI4Devs" oninput="handleInput()">
+      </div>
+      
+      <div class="mt-4">
+        <h5>Resultado:</h5>
+        <p id="result" class="fs-5 border rounded p-3 d-inline-block"></p>
+        <button class="btn btn-outline-success mt-2 d-none" id="copyBtn" onclick="copyToClipboard()">Copiar al portapapeles</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toastContainer">
+    <div class="toast align-items-center text-white bg-success border-0" id="copyToast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          Texto copiado al portapapeles.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (para toast) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+🧩 script.js actualizado
+javascript
+Copiar
+Editar
+function handleInput() {
+    const input = document.getElementById("inputText").value;
+    const result = document.getElementById("result");
+    const copyBtn = document.getElementById("copyBtn");
+
+    if (input.length > 3) {
+        const reversed = input.split("").reverse().join("");
+        result.textContent = reversed;
+        copyBtn.classList.remove("d-none");
+    } else {
+        result.textContent = "";
+        copyBtn.classList.add("d-none");
+    }
+}
+
+function copyToClipboard() {
+    const text = document.getElementById("result").textContent;
+
+    if (text.length > 0) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                showToast();
+            })
+            .catch(err => {
+                console.error("Error al copiar:", err);
+            });
+    }
+}
+
+function showToast() {
+    const toastEl = document.getElementById("copyToast");
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
+✅ Resultado final:
+Diseño elegante y moderno.
+
+Texto invertido con estilo visual claro y suave.
+
+Botón "Copiar al portapapeles" aparece solo si el texto tiene más de 3 letras.
+
+Al copiar, se muestra una notificación (toast) visual en la esquina inferior derecha.
+
+¿Quieres que el toast desaparezca automáticamente o permanezca hasta que el usuario lo cierre? Actualmente se muestra por defecto y luego se oculta solo tras unos segundos. Puedo ajustarlo según prefieras.

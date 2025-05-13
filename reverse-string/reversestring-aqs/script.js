@@ -15,15 +15,20 @@ function handleInput() {
 
 function copyToClipboard() {
     const text = document.getElementById("result").textContent;
-    
+
     if (text.length > 0) {
         navigator.clipboard.writeText(text)
             .then(() => {
-                alert("Texto copiado al portapapeles");
+                showToast();
             })
             .catch(err => {
-                alert("Error al copiar el texto");
-                console.error(err);
+                console.error("Error al copiar:", err);
             });
     }
+}
+
+function showToast() {
+    const toastEl = document.getElementById("copyToast");
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
 }
