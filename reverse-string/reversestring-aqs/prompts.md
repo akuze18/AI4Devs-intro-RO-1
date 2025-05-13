@@ -213,3 +213,96 @@ No hay botón, lo que hace la experiencia más fluida y moderna.
 
 ¿Te gustaría agregar alguna animación o efecto visual cuando se actualiza el texto invertido?
 
+# Prompt 4
+
+Esta funcionando excelente, ahora agrega un botón, que igualmente debe cumplir con la condición de 3 caracteres como mínimo, este botón me permite copiar la cadena invertida al porta papeles del equipo, tal como haría la combinación de teclas control + c
+Además al resultado agregale algun estilo, como un marco simple
+
+# Resultado 4
+
+¡Genial! Vamos a agregar dos cosas:
+
+✅ 1. Un botón para copiar al portapapeles:
+Solo se mostrará si la cadena tiene más de 3 caracteres.
+
+Usará navigator.clipboard.writeText() para copiar el texto.
+
+✅ 2. Estilo visual al resultado:
+Un marco simple (borde) con algo de relleno y fondo suave usando clases de Bootstrap.
+
+🔧 Actualización de index.html
+html
+Copiar
+Editar
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reverse String</title>
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Reversor de Cadenas</h1>
+    <div class="card shadow p-4">
+      <div class="mb-3">
+        <label for="inputText" class="form-label">Ingresa una cadena de texto:</label>
+        <input type="text" class="form-control" id="inputText" placeholder="Ejemplo: AI4Devs" oninput="handleInput()">
+      </div>
+      
+      <div class="mt-4">
+        <h5>Resultado:</h5>
+        <p id="result" class="fs-5 text-success border rounded p-3 bg-white"></p>
+        <button class="btn btn-outline-secondary mt-2 d-none" id="copyBtn" onclick="copyToClipboard()">Copiar al portapapeles</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+🔧 Actualización de script.js
+javascript
+Copiar
+Editar
+function handleInput() {
+    const input = document.getElementById("inputText").value;
+    const result = document.getElementById("result");
+    const copyBtn = document.getElementById("copyBtn");
+
+    if (input.length > 3) {
+        const reversed = input.split("").reverse().join("");
+        result.textContent = reversed;
+        copyBtn.classList.remove("d-none");
+    } else {
+        result.textContent = "";
+        copyBtn.classList.add("d-none");
+    }
+}
+
+function copyToClipboard() {
+    const text = document.getElementById("result").textContent;
+    
+    if (text.length > 0) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                alert("Texto copiado al portapapeles");
+            })
+            .catch(err => {
+                alert("Error al copiar el texto");
+                console.error(err);
+            });
+    }
+}
+Resultado:
+Cuando hay más de 3 caracteres, se muestra:
+
+El texto invertido enmarcado.
+
+Un botón "Copiar al portapapeles".
+
+Al hacer clic, se copia el texto y aparece una alerta de confirmación.
+
+¿Quieres que la alerta sea un mensaje visual tipo toast o snackbar en vez de un alert() tradicional? Puedo ayudarte a agregar eso también.
