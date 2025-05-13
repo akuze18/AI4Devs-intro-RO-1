@@ -8,7 +8,7 @@ Usando como base el archivo que te adjunto, Ccea una página web con lógica en 
 Como por ejemplo, si introduzco AI4Devs devuelve sveD4AI.
 Agrega algunos estilos usando bootstrap desde su CDN para que se vea presentable
 
-# Resultado
+# Resultado Primer Prompt
 
 Gracias por compartir el archivo base. A continuación, voy a crear una versión completa de la página web que incluye:
 
@@ -73,3 +73,78 @@ Abre index.html en tu navegador para probar la funcionalidad.
 
 ¿Te gustaría que también lo empaquete todo en un archivo .zip o lo combine en un solo HTML sin archivos externos?
 
+# Segundo Prompt
+
+Implementa la siguiente funcionalidad a la página que recien realizaste:
+El botón debe aparecer cuando haya texto suficiente, más de 3 letras
+
+# Resultado Segundo Prompt
+
+Perfecto. Para implementar esa funcionalidad, modificaremos el JavaScript para que:
+
+Escuche los cambios en el campo de texto.
+
+Oculte o muestre el botón según la longitud del texto ingresado (más de 3 caracteres).
+
+También actualizaremos ligeramente el HTML para facilitar este comportamiento.
+
+✅ index.html (actualizado)
+html
+Copiar
+Editar
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reverse String</title>
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Reversor de Cadenas</h1>
+    <div class="card shadow p-4">
+      <div class="mb-3">
+        <label for="inputText" class="form-label">Ingresa una cadena de texto:</label>
+        <input type="text" class="form-control" id="inputText" placeholder="Ejemplo: AI4Devs" oninput="checkLength()">
+      </div>
+      <button class="btn btn-primary d-none" id="reverseBtn" onclick="reverseString()">Invertir</button>
+      <div class="mt-4">
+        <h5>Resultado:</h5>
+        <p id="result" class="fs-5 text-success"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+✅ script.js (actualizado)
+javascript
+Copiar
+Editar
+function reverseString() {
+    const input = document.getElementById("inputText").value;
+    const reversed = input.split("").reverse().join("");
+    document.getElementById("result").textContent = reversed;
+}
+
+function checkLength() {
+    const input = document.getElementById("inputText").value;
+    const button = document.getElementById("reverseBtn");
+    
+    if (input.length > 3) {
+        button.classList.remove("d-none");
+    } else {
+        button.classList.add("d-none");
+    }
+}
+Resultado esperado
+Al escribir más de 3 caracteres, el botón "Invertir" aparecerá.
+
+Si el texto tiene 3 caracteres o menos, el botón desaparecerá.
+
+La cadena se invierte al hacer clic.
+
+¿Quieres que se muestre también un mensaje si el texto no es válido, o que se bloquee el botón en lugar de ocultarlo?
