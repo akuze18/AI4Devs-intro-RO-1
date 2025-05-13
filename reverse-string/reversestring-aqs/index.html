@@ -13,9 +13,8 @@
     <div class="card shadow p-4">
       <div class="mb-3">
         <label for="inputText" class="form-label">Ingresa una cadena de texto:</label>
-        <input type="text" class="form-control" id="inputText" placeholder="Ejemplo: AI4Devs" oninput="checkLength()">
+        <input type="text" class="form-control" id="inputText" placeholder="Ejemplo: AI4Devs" oninput="handleInput()">
       </div>
-      <button class="btn btn-primary d-none" id="reverseBtn" onclick="reverseString()">Invertir</button>
       <div class="mt-4">
         <h5>Resultado:</h5>
         <p id="result" class="fs-5 text-success"></p>

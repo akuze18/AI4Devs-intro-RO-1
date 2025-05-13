@@ -1,16 +1,11 @@
-function reverseString() {
+function handleInput() {
     const input = document.getElementById("inputText").value;
-    const reversed = input.split("").reverse().join("");
-    document.getElementById("result").textContent = reversed;
-}
+    const result = document.getElementById("result");
 
-function checkLength() {
-    const input = document.getElementById("inputText").value;
-    const button = document.getElementById("reverseBtn");
-    
     if (input.length > 3) {
-        button.classList.remove("d-none");
+        const reversed = input.split("").reverse().join("");
+        result.textContent = reversed;
     } else {
-        button.classList.add("d-none");
+        result.textContent = ""; // Limpiar resultado si no se cumplen los requisitos
     }
 }
