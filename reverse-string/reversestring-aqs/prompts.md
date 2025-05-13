@@ -446,3 +446,158 @@ Botón "Copiar al portapapeles" aparece solo si el texto tiene más de 3 letras.
 Al copiar, se muestra una notificación (toast) visual en la esquina inferior derecha.
 
 ¿Quieres que el toast desaparezca automáticamente o permanezca hasta que el usuario lo cierre? Actualmente se muestra por defecto y luego se oculta solo tras unos segundos. Puedo ajustarlo según prefieras.
+
+# Prompt 6
+
+Está casi perfecto, habría que cambiar los siguientes detalles:
+El cuadro de resultado se va a adaptando según el resultado, necesito que sea del mismo largo que el input de entrada, es decir, que ocupe el mismo largo.
+El botón de copiado, siempre debe queda abajo de la caja de resultado, sin importar el contenido que ha en esa caja.
+Agrega un botón de borrado del campo de entrada, debe respetar el mismo mínimo de caracteres que hemos estado trabajando para mostrarse.
+
+# Resultado 6
+
+✅ Cambios a aplicar:
+El resultado (#result) tendrá el mismo ancho que el campo de entrada.
+
+Esto se logra dándole la clase w-100 (100% del contenedor).
+
+El botón de copiar estará siempre debajo del resultado.
+
+No se alineará en línea con el texto, sino que será un bloque debajo.
+
+Botón de borrado del campo de entrada.
+
+Solo visible cuando el texto tiene más de 3 caracteres.
+
+Al hacer clic, limpia el input, el resultado y oculta los botones relacionados.
+
+🔧 index.html (actualizado)
+html
+Copiar
+Editar
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reverse String</title>
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f2f5;
+    }
+
+    .card-custom {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    #result {
+      background-color: #e9f7ef;
+      border-color: #a3d9b1;
+      color: #2e7d32;
+    }
+
+    #toastContainer {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1050;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h1 class="text-center mb-4 text-primary">Reversor de Cadenas</h1>
+    <div class="card card-custom p-4">
+      <div class="mb-3">
+        <label for="inputText" class="form-label">Ingresa una cadena de texto:</label>
+        <input type="text" class="form-control" id="inputText" placeholder="Ejemplo: AI4Devs" oninput="handleInput()">
+        <button class="btn btn-outline-danger mt-2 d-none" id="clearBtn" onclick="clearInput()">Borrar entrada</button>
+      </div>
+
+      <div class="mt-4">
+        <h5>Resultado:</h5>
+        <p id="result" class="fs-5 border rounded p-3 bg-white w-100"></p>
+        <button class="btn btn-outline-success mt-2 d-none" id="copyBtn" onclick="copyToClipboard()">Copiar al portapapeles</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toastContainer">
+    <div class="toast align-items-center text-white bg-success border-0" id="copyToast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          Texto copiado al portapapeles.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+🔧 script.js actualizado
+javascript
+Copiar
+Editar
+function handleInput() {
+    const input = document.getElementById("inputText").value;
+    const result = document.getElementById("result");
+    const copyBtn = document.getElementById("copyBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    if (input.length > 3) {
+        const reversed = input.split("").reverse().join("");
+        result.textContent = reversed;
+        copyBtn.classList.remove("d-none");
+        clearBtn.classList.remove("d-none");
+    } else {
+        result.textContent = "";
+        copyBtn.classList.add("d-none");
+        clearBtn.classList.add("d-none");
+    }
+}
+
+function copyToClipboard() {
+    const text = document.getElementById("result").textContent;
+
+    if (text.length > 0) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                showToast();
+            })
+            .catch(err => {
+                console.error("Error al copiar:", err);
+            });
+    }
+}
+
+function clearInput() {
+    document.getElementById("inputText").value = "";
+    document.getElementById("result").textContent = "";
+    document.getElementById("copyBtn").classList.add("d-none");
+    document.getElementById("clearBtn").classList.add("d-none");
+}
+
+function showToast() {
+    const toastEl = document.getElementById("copyToast");
+    const toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
+✅ Resultado:
+El resultado siempre ocupa el mismo ancho que el input.
+
+El botón de "Copiar" aparece debajo del resultado.
+
+El botón "Borrar entrada" aparece con más de 3 caracteres.
+
+Toast elegante para confirmar que se copió al portapapeles.
+
+¿Quieres que al borrar el texto también se devuelva el foco al input automáticamente? Puedo añadir eso fácilmente si lo deseas.
